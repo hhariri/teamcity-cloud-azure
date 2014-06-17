@@ -14,30 +14,12 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.clouds.azure.util;
+package jetbrains.buildServer.clouds.azure.util
 
-public class AzureSubscription {
-  String id;
-  String name;
+import java.security.KeyStore
 
-  public AzureSubscription(String id, String name) {
-    this.id = id;
-    this.name = name;
-  }
+data public class AzurePublishSettings(val publishMethod: String, val managementUrl: String, val managementKeyStore: KeyStore, val subscriptions: MutableList<AzureSubscription>)
 
-  public String getId() {
-    return id;
-  }
 
-  public void setId(String id) {
-    this.id = id;
-  }
 
-  public String getName() {
-    return name;
-  }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-}

@@ -14,35 +14,35 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.clouds.azure.util;
+package jetbrains.buildServer.clouds.azure.util
 
-import com.microsoft.windowsazure.core.utils.Base64;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import com.microsoft.windowsazure.core.utils.Base64
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.io.OutputStream
+import java.security.KeyStore
+import java.security.Security
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.KeyStore;
-import java.security.Security;
-
-public class KeyStoreUtil {
+public class KeyStoreUtil() {
   /* Used to create the PKCS#12 store - important to note that the store is created on the fly so is in fact passwordless -
    * the JSSE fails with masqueraded exceptions so the BC provider is used instead - since the PKCS#12 import structure does
    * not have a password it has to be done this way otherwise BC can be used to load the cert into a keystore in advance and
    * password
    */
-  public KeyStore createKeyStorePKCS12(String base64Certificate, OutputStream keyStoreOutputStream, String keystorePwd) throws Exception {
-    Security.addProvider(new BouncyCastleProvider());
-    KeyStore store = KeyStore.getInstance("PKCS12", BouncyCastleProvider.PROVIDER_NAME);
-    store.load(null, null);
+  public fun createKeyStorePKCS12(base64Certificate: String, keyStoreOutputStream: OutputStream, keystorePwd: String): KeyStore {
+    Security.addProvider(BouncyCastleProvider())
+
+    val store = KeyStore.getInstance("PKCS12", BouncyCastleProvider.PROVIDER_NAME!!)
+    store.load(null, null)
 
     // read in the value of the base 64 cert without a password (PBE can be applied afterwards if this is needed
-    InputStream sslInputStream = new ByteArrayInputStream(Base64.decode(base64Certificate));
-    store.load(sslInputStream, "".toCharArray());
+    val sslInputStream = ByteArrayInputStream(Base64.decode(base64Certificate)!!)
+    store.load(sslInputStream, "".toCharArray())
 
     // we need to a create a physical keystore as well here
-    store.store(keyStoreOutputStream, keystorePwd.toCharArray());
-    keyStoreOutputStream.close();
-    return store;
+    store.store(keyStoreOutputStream, keystorePwd.toCharArray())
+    keyStoreOutputStream.close()
+    return store
   }
 }
