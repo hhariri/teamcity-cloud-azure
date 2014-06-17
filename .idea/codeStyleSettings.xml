@@ -19,6 +19,7 @@
         </option>
         <option name="FIELD_NAME_PREFIX" value="my" />
         <option name="STATIC_FIELD_NAME_PREFIX" value="our" />
+        <ClojureCodeStyleSettings />
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
